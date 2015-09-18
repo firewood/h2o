@@ -51,6 +51,7 @@ enum {
     LIT_RACK_MULTIPROCESS,
     LIT_RACK_RUN_ONCE,
     LIT_RACK_HIJACK_,
+    LIT_RACK_INPUT,
     LIT_RACK_ERRORS,
     LIT_SERVER_SOFTWARE,
     LIT_SERVER_SOFTWARE_VALUE,
@@ -200,6 +201,7 @@ static mrb_value build_constants(mrb_state *mrb, const char *server_name, size_t
     SET_LITERAL(LIT_RACK_MULTIPROCESS, "rack.multiprocess");
     SET_LITERAL(LIT_RACK_RUN_ONCE, "rack.run_once");
     SET_LITERAL(LIT_RACK_HIJACK_, "rack.hijack?");
+    SET_LITERAL(LIT_RACK_INPUT, "rack.input");
     SET_LITERAL(LIT_RACK_ERRORS, "rack.errors");
     SET_LITERAL(LIT_SERVER_SOFTWARE, "SERVER_SOFTWARE");
     SET_STRING(LIT_SERVER_SOFTWARE_VALUE, mrb_str_new(mrb, server_name, server_name_len));
@@ -291,6 +293,8 @@ static void stringify_address(h2o_conn_t *conn, socklen_t (*cb)(h2o_conn_t *conn
     }
 }
 
+mrb_value mrb_input_stream_value(mrb_state *mrb, char *base, mrb_int len);
+
 static mrb_value build_env(h2o_req_t *req, mrb_state *mrb, mrb_value constants)
 {
     mrb_value env = mrb_hash_new_capa(mrb, 16);
@@ -324,6 +328,9 @@ static mrb_value build_env(h2o_req_t *req, mrb_state *mrb, mrb_value constants)
         char buf[32];
         int l = sprintf(buf, "%zu", req->entity.len);
         mrb_hash_set(mrb, env, mrb_ary_entry(constants, LIT_CONTENT_LENGTH), mrb_str_new(mrb, buf, l));
+        mrb_hash_set(mrb, env, mrb_ary_entry(constants, LIT_RACK_INPUT),
+                     mrb_input_stream_value(mrb, req->entity.base, req->entity.len));
+
     }
     {
         mrb_value h, p;

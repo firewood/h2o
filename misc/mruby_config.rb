@@ -26,4 +26,6 @@ MRuby::Build.new do |conf|
 
   # include all the core GEMs
   conf.gembox 'full-core'
+  conf.gem github: 'matsumoto-r/mruby-redis'
+  conf.gem github: 'rail44/mruby-rack-r3'
 end

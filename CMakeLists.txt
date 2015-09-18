@@ -346,7 +346,10 @@ IF (WITH_MRUBY)
     TARGET_LINK_LIBRARIES(h2o
         "${CMAKE_BINARY_DIR}/mruby/host/lib/libmruby.a"
         "${CMAKE_BINARY_DIR}/mruby/host/mrbgems/mruby-onig-regexp/Onigmo-Onigmo-5.15.0/.libs/libonig.a"
-        "m")
+        "${CMAKE_BINARY_DIR}/mruby/host/mrbgems/mruby-redis/hiredis/libhiredis.a"
+        "${CMAKE_BINARY_DIR}/mruby/host/mrbgems/mruby-r3/r3/.libs/libr3.a"
+        "m"
+        "libpcre.a")
     ADD_DEPENDENCIES(h2o mruby)
 ENDIF (WITH_MRUBY)
 TARGET_LINK_LIBRARIES(h2o ${EXTRA_LIBRARIES})
