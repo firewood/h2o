@@ -2,27 +2,28 @@
 #   /:
 #     file.dir: examples/doc_root
 #     mruby.handler-file: /path/to/hello.rb
+#
+host     = "127.0.0.1"
+port     = 6379
+
+$r = Redis.new host, port
 
 class HelloApp
   def call(env)
-    h = "hello"
-    m = "from h2o_mruby"
-
-    ua = env["HTTP_USER_AGENT"]
-    new_ua = "new-#{ua}-h2o_mruby"
-    path = env["PATH_INFO"]
-    host = env["HTTP_HOST"]
-    method = env["REQUEST_METHOD"]
-    query = env["QUERY_STRING"]
-
-    msg = "#{h} #{m}. User-Agent:#{ua} New User-Agent:#{new_ua} path:#{path} host:#{host} method:#{method} query:#{query}"
+    key = 'hoge'
+    path = env['PATH_INFO']
+    $r.set key, '0' unless $r.exists?(key)
+    if path == '/incr'
+      current = $r.incr key
+    elsif path == '/decr'
+      current = $r.decr key
+    end
 
     [200,
      {
        "content-type" => "text/plain; charset=utf-8",
-       "user-agent" => new_ua,
      },
-     ["#{msg}\n"]
+     ["#{current}\n"]
     ]
 
   end
