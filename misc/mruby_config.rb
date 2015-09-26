@@ -28,4 +28,6 @@ MRuby::Build.new do |conf|
   conf.gembox 'full-core'
   conf.gem github: 'matsumoto-r/mruby-redis'
   conf.gem github: 'rail44/mruby-rack-r3'
+  conf.gem github: 'zzak/mruby-uri'
+  conf.gem github: 'mattn/mruby-mysql'
 end
