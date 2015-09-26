@@ -349,7 +349,11 @@ IF (WITH_MRUBY)
         "${CMAKE_BINARY_DIR}/mruby/host/mrbgems/mruby-redis/hiredis/libhiredis.a"
         "${CMAKE_BINARY_DIR}/mruby/host/mrbgems/mruby-r3/r3/.libs/libr3.a"
         "m"
-        "libpcre.a")
+        "libpcre.a"
+        "z"
+        "mysqlclient"
+        "pthread"
+        "dl")
     ADD_DEPENDENCIES(h2o mruby)
 ENDIF (WITH_MRUBY)
 TARGET_LINK_LIBRARIES(h2o ${EXTRA_LIBRARIES})
