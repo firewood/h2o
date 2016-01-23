@@ -30,4 +30,5 @@ MRuby::Build.new do |conf|
   conf.gem github: 'rail44/mruby-rack-r3'
   conf.gem github: 'zzak/mruby-uri'
   conf.gem github: 'mattn/mruby-mysql'
+  conf.gem github: 'firewood/mruby-activerecord'
 end
