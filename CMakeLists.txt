@@ -349,14 +349,11 @@ IF (WITH_MRUBY)
         "${CMAKE_BINARY_DIR}/mruby/host/mrbgems/mruby-redis/hiredis/libhiredis.a"
         "${CMAKE_BINARY_DIR}/mruby/host/mrbgems/mruby-r3/r3/.libs/libr3.a"
         "m"
+        "libpcre.a"
         "z"
+        "mysqlclient"
         "pthread"
         "dl")
-
-    EXECUTE_PROCESS(COMMAND mysql_config --libs RESULT_VARIABLE DETECT_MACPORTS OUTPUT_VARIABLE MYSQL_LIBS ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
-    EXECUTE_PROCESS(COMMAND pcre-config --libs RESULT_VARIABLE DETECT_MACPORTS OUTPUT_VARIABLE PCRE_LIBS ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
-    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${MYSQL_LIBS} ${PCRE_LIBS}")
-
     ADD_DEPENDENCIES(h2o mruby)
 ENDIF (WITH_MRUBY)
 TARGET_LINK_LIBRARIES(h2o ${EXTRA_LIBRARIES})
